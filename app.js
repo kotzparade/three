@@ -32,7 +32,7 @@ function init() {
   controls = new OrbitControls(camera, renderer.domElement);
 
   // ambient
-  // scene.add(new THREE.AmbientLight(0x222222));
+  scene.add(new THREE.AmbientLight(0xffffff));
 
   // light
   var light = new THREE.DirectionalLight(0xffffff, 1);
@@ -43,12 +43,13 @@ function init() {
   //scene.add(new THREE.AxesHelper(20));
 
   // geometry
-  var geometry = new THREE.SphereGeometry(14, 24, 24);
+  //var geometry = new THREE.SphereGeometry(14, 24, 24);
 
   // material
 
   // mesh
 
+  // 3D Loader
   const loader = new GLTFLoader();
 
   loader.load(
