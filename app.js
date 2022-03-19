@@ -19,7 +19,7 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
 
-  document.body.appendChild(renderer.domElement);
+  document.body.prepend(renderer.domElement);
 
   // scene
   scene = new THREE.Scene();
@@ -48,13 +48,6 @@ function init() {
   // axes
   // scene.add(new THREE.AxesHelper(20));
 
-  // geometry
-  //var geometry = new THREE.SphereGeometry(14, 24, 24);
-
-  // material
-
-  // mesh
-
   // 3D Loader
   const loader = new GLTFLoader();
 
@@ -70,12 +63,14 @@ function init() {
     function (gltf) {
       gltf.scene.rotation.set(0, 0, 0);
       scene.add(gltf.scene);
+
+      //Intro GSAP Animation
       tl.to(gltf.scene.rotation, { y: 6, duration: 2 });
       tl.to(gltf.scene.scale, { x: 1, y: 1, z: 1, duration: 1 }, "-=2");
       tl.to(gltf.scene.position, { x: 0, y: -1, z: 0, duration: 2 }, "-=2");
 
       /**
-       * Animation GSAP
+       * Scrolling Animation GSAP
        */
 
       gsap.registerPlugin(ScrollTrigger);
