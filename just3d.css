@@ -1,1 +1,7 @@
-
+* {
+  margin: 0;
+  background-color: red;
+}
+.container {
+  display: flex;
+}
