@@ -5,6 +5,8 @@ import * as THREE from "https://unpkg.com/three@0.127.0/build/three.module.js";
 import { GLTFLoader } from "https://unpkg.com/three@0.127.0/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "https://unpkg.com/three@0.127.0/examples/jsm/loaders/DRACOLoader.js";
 import { OrbitControls } from "https://unpkg.com/three@0.127.0/examples/jsm/controls/OrbitControls.js";
+import { EffectComposer } from "https://unpkg.com/three@0.127.0/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "https://unpkg.com/three@0.127.0/examples/jsm/postprocessing/RenderPass.js";
 
 //Raycaster
 const raycaster = new THREE.Raycaster();
@@ -71,9 +73,9 @@ window.addEventListener("resize", () => {
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(
-  100,
+  45,
   sizes.width / sizes.height,
-  0.001,
+  1,
   1000
 );
 camera.position.x = 0;
@@ -81,14 +83,15 @@ camera.position.y = 0;
 camera.position.z = 1;
 scene.add(camera);
 
-// ambient
+// AmbientLight
 // scene.add(new THREE.AmbientLight(0xffffff, 5));
 
-// light
-var light = new THREE.DirectionalLight(0xffffff, 5);
+// DirectionalLight
+var light = new THREE.DirectionalLight(0xffffff, 4);
 light.position.set(10, 10, 10);
 scene.add(light);
 
+//Spotlight
 // var spotlight = new THREE.SpotLight(0xffffff, 5);
 // spotlight.position.set(0, 10, 10);
 // scene.add(spotlight);
@@ -102,20 +105,17 @@ controls.enableZoom = true;
 controls.enablePan = true;
 controls.dampingFactor = 0.05;
 controls.maxDistance = 100;
-controls.minDistance = 1;
+controls.minDistance = 3;
 
 //Raycast for detecting Objects on the model
 function raycast(e) {
   raycaster.setFromCamera(pointer, camera);
   var intersects = raycaster.intersectObjects(scene.children, true);
 
-  for (var i = 0; i < intersects.length; i++) {
-    let object = intersects[i].object;
-    console.log(object.name);
-    if (object == "0bject784") {
-      object.visible = false;
-    }
-  }
+  // for (var i = 0; i < intersects.length; i++) {
+  //   intersects[i].object.material.color.set(0xff0000);
+  //   console.log(intersects[i].object);
+  // }
 }
 /**
  * Renderer
@@ -128,6 +128,11 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+//Effeccomposer
+const composer = new EffectComposer(renderer);
+const renderPass = new RenderPass(scene, camera);
+composer.addPass(renderPass);
+
 /**
  * Animate
  */
@@ -138,7 +143,7 @@ const tick = () => {
   // Update controls
   controls.update();
   // Render
-  renderer.render(scene, camera);
+  composer.render(scene, camera);
 
   // Call tick again on the next frame
   renderer.domElement.addEventListener("click", raycast, true);
