@@ -55,17 +55,20 @@ const sizes = {
 };
 
 window.addEventListener("resize", () => {
-  // Update sizes
-  sizes.width = window.innerWidth;
-  sizes.height = window.innerHeight;
-
-  // Update camera
-  camera.aspect = sizes.width / sizes.height;
+  // // Update sizes
+  // sizes.width = window.innerWidth;
+  // sizes.height = window.innerHeight;
+  // // Update camera
+  // camera.aspect = sizes.width / sizes.height;
+  // camera.updateProjectionMatrix();
+  // // Update renderer
+  // renderer.setSize(sizes.width, sizes.height);
+  // renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  let rect = this.renderer.domElement.getBoundingClientRect();
+  console.log(rect);
+  camera.aspect = rect.width / rect.height;
   camera.updateProjectionMatrix();
-
-  // Update renderer
-  renderer.setSize(sizes.width, sizes.height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(rect.width, rect.height);
 });
 
 /**
