@@ -75,8 +75,8 @@ window.addEventListener("resize", () => {
 const camera = new THREE.PerspectiveCamera(
   45,
   sizes.width / sizes.height,
-  1,
-  1000
+  0.01,
+  100
 );
 camera.position.x = 0;
 camera.position.y = 0;
@@ -100,11 +100,11 @@ scene.add(light);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.enabled = true;
-// controls.autoRotate = true;
-controls.enableZoom = true;
-controls.enablePan = true;
-controls.dampingFactor = 0.05;
-controls.maxDistance = 100;
+controls.autoRotate = true;
+controls.enableZoom = false;
+controls.enablePan = false;
+// controls.dampingFactor = 0.05;
+// controls.maxDistance = 100;
 controls.minDistance = 3;
 
 //Raycast for detecting Objects on the model
